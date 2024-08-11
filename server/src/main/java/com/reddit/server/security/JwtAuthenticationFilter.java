@@ -32,16 +32,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String jwt = getJwtFromRequest(request);
+        try{
+            String jwt = getJwtFromRequest(request);
 
-        if(StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)){
-            String username = jwtProvider.getUsernameFromJwt(jwt);
+            if(StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)){
+                String username = jwtProvider.getUsernameFromJwt(jwt);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+
+        }
+        catch (Exception e) {
+            logger.error("JWT processing failed: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid JWT Token");
+            return;
         }
 
         filterChain.doFilter(request, response);
@@ -49,8 +58,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")){
-            return bearerToken.substring(7);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
+            return bearerToken.substring(7).trim();
         }
         return bearerToken;
     }
