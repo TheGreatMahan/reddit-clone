@@ -14,15 +14,17 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Builder
+@Getter
+@Setter
 public class Subreddit {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-    private String name;
-    private String description;
+    public Long id;
+    public String name;
+    public String description;
     @OneToMany(fetch = LAZY)
-    private List<Post> posts;
-    private Instant createdDate;
+    public List<Post> posts;
+    public Instant createdDate;
     @ManyToOne(fetch = LAZY)
-    private User user;
+    public User user;
 }

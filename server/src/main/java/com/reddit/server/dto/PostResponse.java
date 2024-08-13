@@ -8,9 +8,11 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class SubredditDto {
+public class PostResponse {
     private Long id;
-    private String name;
+    private String postName;
     private String description;
-    private Integer postCount;
+    private String url;
+    private String subredditName;
+    private String userName;
 }
