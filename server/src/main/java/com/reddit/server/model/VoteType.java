@@ -1,6 +1,8 @@
 package com.reddit.server.model;
 
 import com.reddit.server.exceptions.SpringRedditException;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Arrays;
 
@@ -12,5 +14,16 @@ public enum VoteType {
     private int direction;
 
     VoteType(int direction) {
+    }
+
+    public static VoteType lookup(Integer direction){
+        return Arrays.stream(VoteType.values())
+                .filter(value -> value.getDirection().equals(direction))
+                .findAny()
+                .orElseThrow(() -> new SpringRedditException("Vote not found"));
+    }
+
+    public Integer getDirection(){
+        return direction;
     }
 }

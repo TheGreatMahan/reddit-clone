@@ -28,6 +28,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPost(id));
     }
 
+    @GetMapping
     public ResponseEntity<List<PostResponse>> getAllPosts(){
         return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPosts());
     }
