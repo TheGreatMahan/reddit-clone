@@ -14,10 +14,10 @@ import java.time.Instant;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long userId;
-    public String username;
-    public String password;
-    public String email;
-    public Instant created;
-    public boolean enabled;
+    private Long userId;
+    private String username;
+    private String password;
+    private String email;
+    private Instant created;
+    private boolean enabled;
 }

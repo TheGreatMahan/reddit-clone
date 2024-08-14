@@ -17,11 +17,10 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
     private String postName;
-    private String description;
     private String url;
-    @Lob
-    private String getPostName;
     private Integer voteCount;
+    @Lob
+    private String description;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
