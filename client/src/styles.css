@@ -13,10 +13,10 @@ input.ng-invalid.ng-touched {
 
 .login,
 .signup {
-    background-color: #0079d3;
-    border-color: #0079d3;
-    color: aliceblue;
-    fill: #0079d3;
+    background-color: #d36900;
+    border-color: #a84300;
+    color: rgb(255, 225, 197);
+    fill: #ff9100;
     border: 1px solid;
     border-radius: 4px;
     text-align: center;

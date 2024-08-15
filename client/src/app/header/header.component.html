@@ -1,6 +1,6 @@
 <header>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-        <div class="flex-grow-1">
+    <nav class="d-flex justify-content-between navbar fixed-top bg-light ms-4 me-4">
+        <div>
             <a aria-label="Home" class="logo" routerLink="/">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="reddit-icon-svg">
                     <g>
@@ -15,10 +15,16 @@
                 </span>
             </a>
         </div>
-        <div class="float-right">       
-            <div>
-                <button routerLink="/signup" class="float-right signup mr-2">Sign up</button>
-                <button routerLink="/login" class="float-right login mr-2">Login</button>
+        <div>
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-4">
+                        <button routerLink="/login" class="login">Login</button>
+                    </div>
+                    <div class="col-8">
+                        <button routerLink="/signup" class="signup">Sign up</button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
