@@ -2,11 +2,14 @@ package com.reddit.server.service;
 
 import com.reddit.server.dto.AuthenticationResponse;
 import com.reddit.server.dto.LoginRequest;
+import com.reddit.server.dto.RefreshTokenRequest;
 import com.reddit.server.dto.RegisterRequest;
 import com.reddit.server.exceptions.SpringRedditException;
 import com.reddit.server.model.NotificationEmail;
+import com.reddit.server.model.RefreshToken;
 import com.reddit.server.model.User;
 import com.reddit.server.model.VerificationToken;
+import com.reddit.server.repository.RefreshTokenRepository;
 import com.reddit.server.repository.UserRepository;
 import com.reddit.server.repository.VerificationTokenRepository;
 import com.reddit.server.security.JwtProvider;
@@ -34,6 +37,8 @@ public class AuthService {
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     public void signup(RegisterRequest registerRequest){
@@ -64,6 +69,20 @@ public class AuthService {
         return token;
     }
 
+    @Transactional
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest){
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
+
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
+    }
+
+
     public void verifyAccount(String token) {
         Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
         verificationToken.orElseThrow(() -> new SpringRedditException("Invalid Token"));
@@ -88,7 +107,12 @@ public class AuthService {
         );
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
-        return new AuthenticationResponse(token, loginRequest.getUsername());
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(loginRequest.getUsername())
+                .build();
     }
 
     @Transactional
