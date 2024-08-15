@@ -38,8 +38,21 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // Disabling CSRF protection
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()  // Permit all requests under /api/auth
-                        .requestMatchers(HttpMethod.GET, "/api/subreddit").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/subreddit")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**")
+                        .permitAll()
+                        .requestMatchers("/v2/api-docs",
+                                "/configuration/ui",
+                                "/swagger-resources/**",
+                                "/configuration/security",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/webjars/**")
+                        .permitAll()
                         .anyRequest().authenticated()  // Require authentication for any other request
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
