@@ -38,6 +38,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // Disabling CSRF protection
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**")
+                        .permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/subreddit")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/")
