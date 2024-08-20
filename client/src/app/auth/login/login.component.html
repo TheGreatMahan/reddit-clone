@@ -1,1 +1,42 @@
-<p>login works!</p>
+<div class="login-section">
+    <div class="row justify-content-center">
+
+        <div class="col-md-9 col-lg-5">
+            <div class="card">
+                <div class="card-header" style="text-align: center">
+                    <h4>Login</h4>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="loginForm" (ngSubmit)="login()">
+                        <div class="form-group row mb-2">
+                            <label class="col-md-4 col-form-label text-md-right">User Name</label>
+                            <div class="col-md-6">
+                                <input type="text" formControlName="username" class="form-control" required autofocus>
+                                <span *ngIf="!loginForm.get('username')?.valid && loginForm.get('username')?.touched">
+                                    Please provide a username
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+                            <div class="col-md-6">
+                                <input type="password" formControlName="password" id="password" class="form-control"
+                                    name="password" required>
+                                <span *ngIf="!loginForm.get('password')?.valid && loginForm.get('password')?.touched">
+                                    Please provide a password
+                                </span>
+                            </div>
+                        </div>
+                        <span class="d-flex justify-content-center">
+                            <button type="submit" class="login mt-4">
+                                Log In
+                            </button>
+                            <span style="margin-left: 10px;" class="mt-4" >New user? <a routerLink="/login">Sign Up</a></span>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
