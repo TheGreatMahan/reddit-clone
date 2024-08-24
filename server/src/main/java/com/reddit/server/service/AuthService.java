@@ -47,15 +47,17 @@ public class AuthService {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
-        user.setEnabled(false);
+
+        user.setEnabled(true);
+//        user.setEnabled(false);
 
         userRepository.save(user);
 
-        String token = generateVerificationToken(user);
-        mailService.sendMail(new NotificationEmail("Please Activate your Account",
-                user.getEmail(), "Thank you for signing up to Spring Reddit, " +
-                "please click on the below url to activate your account : " +
-                "http://localhost:8080/api/auth/accountVerification/" + token));
+//        String token = generateVerificationToken(user);
+//        mailService.sendMail(new NotificationEmail("Please Activate your Account",
+//                user.getEmail(), "Thank you for signing up to Spring Reddit, " +
+//                "please click on the below url to activate your account : " +
+//                "http://localhost:8080/api/auth/accountVerification/" + token));
     }
 
     @Transactional
