@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SubredditModel } from '../../subreddit/subreddit-response';
 import { SubredditService } from '../../subreddit/subreddit.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-subreddit-side-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './subreddit-side-bar.component.html',
   styleUrl: './subreddit-side-bar.component.css'
 })

@@ -16,4 +16,16 @@
 
 .sidebar-view-subreddit {
     height: 280px;
+    width: 312px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.subreddit-text>a{
+    color: #0079d3;
+    text-decoration: none;
+}
+.subreddit-text>a:hover{
+    color: #005697;
+    text-decoration: none;
 }

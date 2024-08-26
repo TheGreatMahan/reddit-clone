@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject, Input } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 
 @Component({
   selector: 'app-side-bar',
@@ -13,6 +13,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class SideBarComponent {
 
-  goToCreatePost(){}
-  goToCreateSubreddit(){}
+  private router: Router = inject(Router);
+
+  goToCreatePost(){
+    this.router.navigateByUrl('/create-post');
+  }
+  goToCreateSubreddit(){
+    this.router.navigateByUrl('/create-subreddit');
+  }
 }
