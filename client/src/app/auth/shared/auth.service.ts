@@ -9,7 +9,8 @@ import { LoginResponse } from '../login/login-response.payload';
   providedIn: 'root',
 })
 export class AuthService {
-  private httpClient = inject(HttpClient);
+
+  constructor(private httpClient: HttpClient){}
 
   refreshTokenPayload = {
     refreshToken: this.getRefreshToken(),

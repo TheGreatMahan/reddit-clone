@@ -15,6 +15,6 @@ export const routes: Routes = [
     { path: 'create-post', component: CreatePostComponent},
     { path: 'create-subreddit', component: CreateSubredditComponent},    
     { path: 'list-subreddits', component: ListSubredditsComponent},
-    { path: 'view-post', component: ViewPostComponent},
+    { path: 'view-post/:id', component: ViewPostComponent },
 ];
 
