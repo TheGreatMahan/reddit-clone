@@ -16,14 +16,21 @@
             </a>
         </div>
         <div>
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col-4">
-                        <button routerLink="/login" class="login">Login</button>
+            <div class="flex-grow-1 float-right">
+                <div *ngIf="isLoggedIn" class="float-right">
+                    <div aria-labelledby="dropdownBasic1">
+                        <button  (click)="goToUserProfile()" class="userdetails" id="dropdownBasic1">
+                            <img class="account-icon"
+                                src="https://www.redditstatic.com/avatars/avatar_default_08_D4E815.png">
+                            {{username}}
+                        </button>
+                        <button class="login" (click)="logout()">Logout</button>
                     </div>
-                    <div class="col-8">
-                        <button routerLink="/signup" class="signup">Sign up</button>
-                    </div>
+
+                </div>
+                <div *ngIf="!isLoggedIn">
+                    <a routerLink="/sign-up" class="float-right sign-up mr-2">Sign up</a>
+                    <a routerLink="/login" class="float-right login mr-2">Login</a>
                 </div>
             </div>
         </div>
