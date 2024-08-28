@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PostModel } from '../../shared/post-model';
 import { CommentPayload } from '../../comment/comment.payload';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { PostService } from '../../shared/post.service';
 import { CommentService } from '../../comment/comment.service';
 import { PostTileComponent } from '../../shared/post-tile/post-tile.component';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [PostTileComponent, CommonModule],
+  imports: [PostTileComponent, CommonModule, RouterModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
