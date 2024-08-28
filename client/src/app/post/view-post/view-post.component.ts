@@ -10,6 +10,7 @@ import { PostService } from '../../shared/post.service';
 import { throwError } from 'rxjs';
 import { CommentPayload } from '../../comment/comment.payload';
 import { CommentService } from '../../comment/comment.service';
+import { AuthService } from '../../auth/shared/auth.service';
 
 @Component({
   selector: 'app-view-post',
@@ -39,7 +40,7 @@ export class ViewPostComponent implements OnInit{
   comments: CommentPayload[] = [];
 
   constructor(private postService: PostService, private activateRoute: ActivatedRoute,
-    private commentService: CommentService, private router: Router) {
+    private commentService: CommentService, private router: Router, private authService: AuthService) {
     this.postId = this.activateRoute.snapshot.params['id'];
 
     this.commentForm = new FormGroup({
@@ -58,9 +59,12 @@ export class ViewPostComponent implements OnInit{
 
   postComment() {
     this.commentPayload.text = this.commentForm.get('text')?.value;
+    //@ts-ignore
+    this.commentPayload.username = this.authService.getUserName();
+    console.log(this.commentPayload);
     this.commentService.postComment(this.commentPayload).subscribe(
       {
-        next: () =>{
+        next: (data) =>{
           this.commentForm.get('text')?.setValue('');
           this.getCommentsForPost();
         },
@@ -78,7 +82,11 @@ export class ViewPostComponent implements OnInit{
 
   private getCommentsForPost() {
     this.commentService.getAllCommentsForPost(this.postId).subscribe({
-      next: (data) => this.comments = data,
+      next: (data) => {
+        this.comments = data
+        console.log(this.comments);
+      }
+        ,
       error: (error) => throwError(() => new Error(error))
     });
   }
