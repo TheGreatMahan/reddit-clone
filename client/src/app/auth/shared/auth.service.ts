@@ -40,6 +40,9 @@ export class AuthService {
           localStorage.setItem('username', data.username);
           localStorage.setItem('refreshToken', data.refreshToken);
           localStorage.setItem('expiresAt', data.expiresAt.toString());
+
+          this.loggedIn.emit(true);
+          this.username.emit(data.username);
           return true;
         })
       );
@@ -59,8 +62,6 @@ export class AuthService {
     localStorage.removeItem('username');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('expiresAt');
-
-    this.router.navigateByUrl('/login')
   }
 
   getJwtToken() {
