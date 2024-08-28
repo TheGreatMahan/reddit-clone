@@ -1,11 +1,12 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
-import { LocalStorageService, provideNgxWebstorage } from 'ngx-webstorage';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { LocalStorageService, provideNgxWebstorage, SessionStorage, SessionStorageService } from 'ngx-webstorage';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { TokenInterceptor } from './token-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,13 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     LocalStorageService,
+    SessionStorageService,
     provideAnimations(),
-    provideToastr()
+    provideToastr(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
 };

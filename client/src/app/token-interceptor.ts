@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { AuthService } from './auth/shared/auth.service';
@@ -13,7 +13,7 @@ export class TokenInterceptor implements HttpInterceptor {
     isTokenRefreshing = false;
     refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject(null);
 
-    private authService = inject(AuthService);
+    constructor(public authService: AuthService){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler):
         Observable<HttpEvent<any>> {
@@ -29,7 +29,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     && error.status === 403) {
                     return this.handleAuthErrors(req, next);
                 } else {
-                    return throwError(error);
+                    return throwError(() => new Error(error));
                 }
             }));
         }
