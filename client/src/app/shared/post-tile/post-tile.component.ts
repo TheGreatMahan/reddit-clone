@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { PostService } from '../post.service';
 import { PostModel } from '../post-model';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { VoteButtonComponent } from "../vote-button/vote-button.component";
 
@@ -18,9 +18,11 @@ import { VoteButtonComponent } from "../vote-button/vote-button.component";
 export class PostTileComponent {
   posts$: Array<PostModel> = [];
   faComments = faComments;
-  goToPost(id: number){}
+  goToPost(id: number){
+    this.router.navigateByUrl('/view-post/' + id);
+  }
 
-  constructor(private postService: PostService) {
+  constructor(private postService: PostService, private router: Router) {
     this.postService.getAllPosts().subscribe(post => {
       this.posts$ = post;
     });
