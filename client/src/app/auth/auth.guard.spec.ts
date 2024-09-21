@@ -7,7 +7,7 @@ describe('authGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) => 
       TestBed.runInInjectionContext(() => authGuard(...guardParameters));
 
-  beforeEach(() => {
+  beforeEach(() => { 
     TestBed.configureTestingModule({});
   });
 
